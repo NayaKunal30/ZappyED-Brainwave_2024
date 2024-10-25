@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - ZappyED</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link 
+      rel="shortcut icon" 
+      href="{{ url_for('static', filename='public/logo.png') }}" 
+      type="image/png" 
+    />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+        body {
+            background: url("{{ url_for('static', filename='public/1bg.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Comic Neue', cursive;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+         /* Dropdown styles */
+         .dropdown-menu {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+    </style>
+</head>
+
+<body class="min-h-screen font-comic-neue">
+
+    <!-- Navbar -->
+    <nav
+    class="sticky top-0 z-50 bg-white/30 border-b border-red-200"
+    style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(3px);"
+  >
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+                <a href="{{ url_for('index') }}" class="flex items-center space-x-2">
+                    <img src="{{ url_for('static', filename='public/logo.png') }}" alt="Icon" style="height: 3rem; width: 3rem;">
+                    <span class="text-2xl font-extrabold text-red-600">ZappyED</span>
+                </a>
+    
+                <!-- Navbar Menu with Dropdown -->
+                <div class="relative flex items-center space-x-4">
+                    <!-- Dropdown for Features -->
+                    <div class="relative dropdown">
+                        <button id="featuresButton" class="bg-white hover:bg-red-100 text-red-700 font-extrabold py-2 px-4 border border-red-300 rounded">
+                            Features
+                        </button>
+                        <div id="dropdownMenu" class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
+                            <a href="{{ url_for('index') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Home</a>
+                            <a href="{{ url_for('about') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">About</a>
+                            <a href="{{ url_for('index') }}#Prices" class="block px-4 py-2 text-gray-800 hover:bg-red-100">
+                                Pricing
+                            </a>
+                            <a href="{{ url_for('contact') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Contact Us</a>
+                        </div>
+                    </div>
+    
+                    <!-- Login Button -->
+                    <a href="{{ url_for('login') }}" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-bold">
+                        Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Us Section -->
+    <section class="py-20 ">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center md:space-x-8 space-y-8 md:space-y-0">
+                <!-- Image Section -->
+                <div class="md:w-1/2">
+                    <img src="https://media1.tenor.com/m/Ry939sWa0PQAAAAC/hmmm-blippi.gif" alt="Contact Us" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+
+                <!-- Contact Form Section -->
+                <div class="md:w-1/2">
+                    <div class="bg-white bg-opacity-30 backdrop-blur-lg p-8 rounded-lg shadow-xl border border-white/40 transform hover:scale-105 transition-transform duration-300">
+                        <h2 class="text-4xl font-extrabold text-red-800 mb-6">Get in Touch</h2>
+                        <form action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value="877f29ad-1ea2-4783-a435-fbc96799c4ed">
+                            
+                            <!-- Name Field -->
+                            <div class="mb-6">
+                                <label for="name" class="block text-lg font-semibold text-red-600 mb-2">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" class="w-full p-4 border border-gray-300 rounded-lg bg-white bg-opacity-30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                            </div>
+                            
+                            <!-- Email Field -->
+                            <div class="mb-6">
+                                <label for="email" class="block text-lg font-semibold text-red-600 mb-2">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email address" class="w-full p-4 border border-gray-300 rounded-lg bg-white bg-opacity-30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                            </div>
+
+                            <!-- Contact Number Field -->
+                            <div class="mb-6">
+                                <label for="phone" class="block text-lg font-semibold text-red-600 mb-2">Contact Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Your phone number (10 digits)" class="w-full p-4 border border-gray-300 rounded-lg bg-white bg-opacity-30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-red-500" pattern="[0-9]{10}" required>
+                            </div>
+                            
+                            <!-- Message Field -->
+                            <div class="mb-6">
+                                <label for="message" class="block text-lg font-semibold text-red-600 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="4" placeholder="Your feedback is very important to us" class="w-full p-4 border border-gray-300 rounded-lg bg-white bg-opacity-30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-extrabold transition-transform duration-300 transform hover:scale-105">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer Section -->
+ <!-- Footer Section -->
+<footer
+class="bg-white/30 border-t border-red-200 py-4"
+style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(3px);" 
+>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <p class="text-red-600">&copy; 2024 ZappyED | RadGov. All rights reserved.</p>
+</div>
+</footer>
+    <script>
+        // Toggle dropdown menu visibility on button click
+        document.getElementById('featuresButton').addEventListener('click', function() {
+            var dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('hidden');
+        });
+    
+        // Close the dropdown if clicked outside
+        window.addEventListener('click', function(e) {
+            var featuresButton = document.getElementById('featuresButton');
+            var dropdownMenu = document.getElementById('dropdownMenu');
+            if (!featuresButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

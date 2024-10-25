@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZappyED</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+
+    <link 
+      rel="shortcut icon" 
+      href="{{ url_for('static', filename='public/logo.png') }}" 
+      type="image/png" 
+    />
+    
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
+
+      body {
+        background: url("{{ url_for('static', filename='public/1bg.png') }}")
+          no-repeat center center fixed;
+        background-size: cover;
+        font-family: "Comic Neue", cursive;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .dropdown-menu {
+        display: none;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .animate-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.5;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Dropdown styles */
+      .dropdown-menu {
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #loader {
+        background-color: #ff9d00;
+        /* Change to your preferred color */
+        border: 2px solid black;
+        /* Add a black border */
+        border-radius: 8px;
+        /* Adjust the radius as needed for rounded corners */
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen font-comic-neue">
+    <!-- Navbar -->
+    <nav
+  class="sticky top-0 z-50 bg-white/30 border-b border-red-200"
+  style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(3px);"
+>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="{{ url_for('index') }}" class="flex items-center space-x-2">
+        <img
+          src="{{ url_for('static', filename='public/logo.png') }}"
+          alt="Icon"
+          style="height: 3rem; width: 3rem"
+        />
+        <span class="text-2xl font-extrabold text-red-600">ZappyED</span>
+      </a>
+
+      <!-- Navbar Menu with Dropdown -->
+      <div class="relative flex items-center space-x-4">
+        <!-- Dropdown for Features -->
+        <div class="relative dropdown">
+          <button
+            id="featuresButton"
+            class="bg-white hover:bg-red-100 text-red-700 font-extrabold py-2 px-4 border border-red-300 rounded"
+          >
+            Features
+          </button>
+          <div
+            id="dropdownMenu"
+            class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
+          >
+            <a href="{{ url_for('index') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100"
+              >Home</a
+            >
+            <a href="{{ url_for('about') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100"
+              >About</a
+            >
+            <a href="{{ url_for('index') }}#Prices" class="block px-4 py-2 text-gray-800 hover:bg-red-100">
+              Pricing
+            </a>
+            <a href="{{ url_for('contact') }}" class="block px-4 py-2 text-gray-800 hover:bg-red-100"
+              >Contact Us</a
+            >
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <a
+          href="{{ url_for('login') }}"
+          class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-bold"
+        >
+          Login
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- Hero Section -->
+    <section class="py-20 text-center">
+      <h1 class="text-5xl sm:text-5xl font-extrabold text-red-800 mb-6">
+        <span class="font-bold">Unlock Knowledge with ZappyED Comics!</span>
+      </h1>
+      <p class="text-2xl font-bold text-red-600 mb-8 max-w-2xl mx-auto">
+        <span class="font-bold"
+          >Transform any topic into an interactive, fun comic adventure!</span
+        >
+      </p>
+      <a href="#prompt" class="inline-block">
+        <button
+          id="getStartedButton"
+          class="bg-yellow-400 hover:bg-yellow-300 text-black py-3 px-6 rounded-lg font-bold flex items-center justify-center mx-auto"
+        >
+          Get Started
+          <img
+            class="h-6 w-6 text-red-600 mx-auto"
+            src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/32160/rocket-312767-clipart-md.png"
+            alt="Icon"
+          />
+        </button>
+      </a>
+      <div class="mt-6 flex justify-center">
+        <img
+          src="https://media.giphy.com/media/fUALo5t1oQcSY/giphy.gif"
+          alt="Small Image"
+          class="h-32 w-32 rounded-full"
+        />
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-10">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-red-800 mb-12 text-center">
+          How ZappyED Works
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              class="h-12 w-12 text-red-600 mb-4 mx-auto"
+              src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/32160/rocket-312767-clipart-md.png"
+              alt="Icon"
+            />
+            <h3 class="text-xl font-semibold text-red-800 mb-2">
+              1. Choose a Topic
+            </h3>
+            <p class="text-red-600">
+              Select any educational subject you want to learn about.
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              class="h-12 w-12 text-red-600 mb-4 mx-auto"
+              src="https://static.vecteezy.com/system/resources/previews/000/238/742/original/abstract-green-comic-background-design-vector.jpg"
+              alt="Icon"
+            />
+            <h3 class="text-xl font-semibold text-red-800 mb-2">
+              2. Generate Comic
+            </h3>
+            <p class="text-red-600">
+              Our AI creates a unique, educational comic based on your topic.
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              class="h-12 w-12 text-red-600 mb-4 mx-auto"
+              src="https://img.freepik.com/free-vector/learning-concept-illustration_114360-6186.jpg"
+              alt="Icon"
+            />
+            <h3 class="text-xl font-semibold text-red-800 mb-2">
+              3. Learn & Enjoy
+            </h3>
+            <p class="text-red-600">
+              Interact with the comic and absorb knowledge in a fun way!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="Prices" class="py-20 border-t border-red-200">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-red-800 mb-12 text-center">
+          Choose Your Plan
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Free Plan -->
+          <div
+            class="bg-red-100 p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 text-center"
+          >
+            <img
+              src="https://gifdb.com/images/high/minions-the-rise-of-gru-bob-smiling-5gar7g2sgrl7d5wx.gif"
+              alt="Free Plan"
+              class="mx-auto mb-4 rounded-full border border-red-200"
+            />
+            <h3 class="text-2xl font-bold text-red-800 mb-4">Free Plan</h3>
+            <p class="text-lg font-semibold text-red-600 mb-4">
+              10 Comics per Month
+            </p>
+            <p class="text-base text-red-600 mb-4">
+              Perfect for trying out ZappyED and exploring our comic adventures!
+            </p>
+            <ul class="list-disc list-inside mb-4 text-red-600">
+              <li>10 Comics Per Month</li>
+              <li>Interactive and Customised Styles</li>
+            </ul>
+            <div class="mt-8">
+              <span class="text-xl font-bold text-red-800">FREE ₹0</span>
+              <span class="text-base text-gray-900"> / Month</span>
+            </div>
+          </div>
+
+          <!-- 3 Months Plan -->
+          <div
+            class="bg-red-200 p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 text-center"
+          >
+            <img
+              src="https://media1.tenor.com/images/b287c0acd7043d05034d8b21e5f84492/tenor.gif?itemid=16412388"
+              alt="3 Months Plan"
+              class="mx-auto mb-4 rounded-full border border-red-300"
+            />
+            <h3 class="text-2xl font-bold text-red-800 mb-4">₹299 for 3 Months</h3>
+            <p class="text-lg font-semibold text-red-600 mb-4">Unlimited Comics</p>
+            <p class="text-base text-red-600 mb-4">High-quality, accurate, and interactive comics for a quarter!</p>
+            <ul class="list-disc list-inside mb-4 text-red-600">
+                <li>Unlimited Comics & No Watermark</li>
+                <li>High-Quality, Accurate & Interactive</li>
+                <li>Customised Styles and Languages</li>
+            </ul>
+            <div class="mt-8">
+                <span class="text-xl font-bold text-red-800">₹299</span>
+                <span class="text-base text-gray-900"> / 3 Months</span>
+            </div>
+          </div>
+
+          <!-- 12 Months Plan -->
+          <div
+            class="bg-red-300 p-6 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 text-center"
+          >
+          <video
+          src="{{ url_for('static', filename='public/video.mp4') }}"
+          alt="12 Months Plan"
+          class="mx-auto mb-4 rounded-full border border-red-400"
+          autoplay
+          loop
+          muted
+        >
+          Your browser does not support the video tag.
+        </video>
+        
+        <h3 class="text-2xl font-bold text-red-800 mb-4">₹499 for 6 Months</h3>
+        <p class="text-lg font-semibold text-red-600 mb-4">All Features Included</p>
+        <p class="text-base text-red-600 mb-4">High-quality, accurate, and interactive comics with:</p>
+        <ul class="list-disc list-inside mb-4 text-red-600">
+            <li>Access to Analyze Comics & No Watermark</li>
+            <li>Voice Feature to Litsen to Comics</li>
+            <li>Customised Styles and Languages</li>
+        </ul>
+        <div class="mt-8">
+            <span class="text-xl font-bold text-red-800">₹499</span>
+            <span class="text-base text-gray-900"> / 6 Months</span>
+        </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prompt Section -->
+    <section id="prompt" class="py-14"> 
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-red-800 mb-4">Try ZappyED Now!</h2>
+                <p class="text-xl font-bold text-red-600">
+                    <span class="font-bold">and turn learning into a thrilling comic adventure!</span>
+                </p>
+            </div>
+            <div class="max-w-2xl mx-auto">
+              <form id="comicForm" class="flex flex-col items-center">
+                <label for="topic"></label>
+                <input type="text" id="topic" name="topic" placeholder="Enter an educational topic (e.g., 'Photosynthesis')" class="w-full p-4 mb-4 border border-red-300 rounded-lg" />
+            
+                <div class="flex space-x-4 mb-4 w-full">
+                    <select id="style" name="style" class="w-1/2 p-4 border border-red-300 rounded-lg">
+                        <option value="">Select Style</option>
+                        <option value="Disney Princes">Disney Princes</option>
+                        <option value="Marvel">Marvel</option>
+                        <option value="Anime">Anime</option>
+                        <option value="DC Comics">DC Comics</option>
+                        <option value="Observable Universe">Observable Universe</option>
+                    </select>
+            
+                    <select id="language" name="language" class="w-1/2 p-4 border border-red-300 rounded-lg">
+                      <option value="">Select Language</option>
+                      <option value="English">English</option>
+                      <option value="Spanish">Spanish</option>
+                      <option value="French">French</option>
+                      <option value="Hindi">Hindi</option>
+                      <option value="Arabic">Arabic</option>
+                      <option value="Bengali">Bengali</option>
+                      <option value="Telugu">Telugu</option>
+                      <option value="Marathi">Marathi</option>
+                      <option value="Tamil">Tamil</option>
+                      <option value="Urdu">Urdu</option>
+                      <option value="Gujarati">Gujarati</option>
+                      <option value="Kannada">Kannada</option>
+                      <option value="Odia">Odia</option>
+                      <option value="Punjabi">Punjabi</option>
+                  </select>
+                </div>
+            
+                <button id="generateButton" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-bold">
+                    Generate Magic ( Comic Bhaiya !! )
+                </button>
+            </form>
+            
+            <!-- Hidden download button initially -->
+            <div class="flex justify-center mt-4">
+              <a href="/download_comic" id="downloadButton" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-center hidden">
+                  Ready 🎉 Download Your Comic Now !!!
+              </a>
+            </div>         
+            </div>
+        </div>
+    </section>
+    
+        <!-- Loader Container -->
+        <div id="loaderContainer" class="mt-1 mx-auto hidden w-1/2">
+            <div class="relative pt-1">
+                <div class="flex justify-between mb-2">
+                    <div><span id="percentage">0%</span></div>
+                </div>
+                <div class="flex">
+                    <div id="loader" class="w-full bg-red-300 rounded-full h-4"></div>
+                </div>
+            </div>
+            <div id="loadingMessage" class="text-center mt-2"></div>
+        </div>
+        
+        <div id="comicPreviewContainer" class="mt-8 w-1/2 mx-auto">
+            <!-- Comic Preview will be displayed here -->
+        </div>
+        
+    </div>
+</div>
+</section>
+
+
+
+<!-- Footer Section -->
+<footer
+  class="bg-white/30 border-t border-red-200 py-4"
+  style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(3px);" 
+>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-red-600">&copy; 2024 ZappyED | RadGov. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<script>
+document.getElementById('generateButton').addEventListener('click', function() {
+    const topic = document.getElementById('topicInput').value;
+    if (topic) {
+        fetch(`/generate-pdf?topic=${encodeURIComponent(topic)}`)
+            .then(response => response.json())
+            .then(data => {
+                const comicPreviewContainer = document.getElementById('comicPreviewContainer');
+                comicPreviewContainer.innerHTML = `
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="${data.comicPreviewUrl}" alt="Comic Preview" class="w-full h-auto rounded" />
+                        <p class="mt-4 text-red-600 text-center">This is a preview of how your comic might look!</p>
+                    </div>
+                `;
+            })
+            .catch(error => console.error('Error generating comic preview:', error));
+    } else {
+        alert('Please enter a topic!');
+    }
+});
+document.getElementById('generateButton').addEventListener('click', function() {
+    const topic = document.getElementById('topicInput').value;
+    if (topic) {
+        fetch(`/generate_comic?topic=${encodeURIComponent(topic)}`)
+            .then(response => response.json())
+            .then(data => {
+                const comicPreviewContainer = document.getElementById('comicPreviewContainer');
+                comicPreviewContainer.innerHTML = `
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="${data.comicPreviewUrl}" alt="Comic Preview" class="w-full h-auto rounded" />
+                        <p class="mt-4 text-red-600 text-center">This is a preview of how your comic might look!</p>
+                    </div>
+                `;
+                
+                // Show the download button after successful generation
+                document.getElementById('downloadButtonContainer').classList.remove('hidden');
+            })
+            .catch(error => console.error('Error generating comic preview:', error));
+    } else {
+        alert('Please enter a topic!');
+    }
+});
+
+// Add event listener for the download button
+document.getElementById('downloadButton').addEventListener('click', function() {
+    window.location.href = '/download_comic';
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const generateButton = document.getElementById('generateButton');
+    const loaderContainer = document.getElementById('loaderContainer');
+    const loader = document.getElementById('loader');
+    const percentageDisplay = document.getElementById('percentage');
+    const loadingMessage = document.getElementById('loadingMessage');
+
+    // Messages to display during loading
+    const messages = [
+        "🌟 Creating a spark of imagination... Hold tight as we weave the threads of creativity!",
+        "🔄 Loading prompts that will inspire and engage young minds. Just a few more moments!",
+        "🎨 Making the comic ready... Each panel is being crafted to perfection. Exciting times ahead!",
+        "⌛ Just a moment... We're gathering all the pieces to bring your comic to life!",
+        "🚀 Almost there... Your educational adventure is about to unfold in spectacular style!",
+        "✨ Igniting creativity... Our magic wands are busy at work!",
+        "📚 Compiling knowledge... Each fact is being carefully chosen for your comic!",
+        "🖌️ Adding colorful characters... Watch as your imagination comes to life!",
+        "🧩 Piecing together stories... Every detail counts in this creative journey!",
+        "🔍 Fine-tuning the experience... We want to make this perfect for you!",
+        "🎉 The big reveal is near... Prepare for an adventure like no other!",
+        "🎈 Unleashing creativity... Your story is about to take flight!",
+        "🛠️ Crafting unique visuals... Every frame tells a part of the tale!",
+        "📖 Wrapping up the narrative... Just a little bit more to go!",
+        "🚦 Your patience is appreciated... We're almost at the finish line!",
+        "🌈 Making magic happen... Get ready for a colorful experience!"
+    ];
+
+    // Start loading process when the generate button is clicked
+    generateButton.addEventListener('click', () => {
+        loaderContainer.classList.remove('hidden');
+        startLoading();
+    });
+
+    function startLoading() {
+        let percentage = 0;
+        const totalDuration = 110; // Total time in seconds (1.5 minutes)
+        const intervalTime = 100; // Update interval in milliseconds (0.1 seconds)
+        const increment = (100 / (totalDuration * 10)); // Calculate increment based on total time
+
+        const loadingInterval = setInterval(() => {
+            percentage += increment;
+
+            // Ensure percentage doesn't exceed 100
+            if (percentage > 100) {
+                percentage = 100;
+            }
+
+            percentageDisplay.textContent = `${Math.round(percentage)}%`;
+            loader.style.width = `${percentage}%`;
+
+            // Update message based on the percentage
+            const messageIndex = Math.floor(percentage / (100 / messages.length));
+            loadingMessage.textContent = messages[Math.min(messageIndex, messages.length - 1)];
+
+            // Stop the interval when loading is complete
+            if (percentage >= 100) {
+                clearInterval(loadingInterval);
+                loadingMessage.textContent = "🎉 Your comic is ready!";
+                // Optionally: Add functionality here to display the comic preview or further actions
+            }
+        }, intervalTime);
+    }
+});
+</script>
+
+<script>
+// Toggle dropdown menu visibility on button click
+document.getElementById('featuresButton').addEventListener('click', function() {
+    var dropdownMenu = document.getElementById('dropdownMenu');
+    dropdownMenu.classList.toggle('hidden');
+});
+
+// Close the dropdown if clicked outside
+window.addEventListener('click', function(e) {
+    var featuresButton = document.getElementById('featuresButton');
+    var dropdownMenu = document.getElementById('dropdownMenu');
+    if (!featuresButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+    }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+<script>
+  document.getElementById('comicForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+
+    const formData = new FormData(this);
+    const generateButton = document.getElementById('generateButton');
+    const downloadButton = document.getElementById('downloadButton');
+
+    // Disable the generate button to prevent multiple submissions
+    generateButton.disabled = true;
+
+    // Send a POST request to the Flask backend to generate the comic
+    fetch('/generate_comic', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Hide the generate button and show the download button
+            generateButton.classList.add('hidden');
+            downloadButton.classList.remove('hidden');
+
+            // Trigger confetti celebration
+            celebrate();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        // Re-enable the generate button
+        generateButton.disabled = false;
+    });
+});
+
+  // Function to trigger confetti
+  function celebrate() {
+      const duration = 3 * 1000; // Duration of confetti in milliseconds
+      const animationEnd = Date.now() + duration;
+
+      const interval = setInterval(() => {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+              return clearInterval(interval);
+          }
+
+          // Generate confetti
+          confetti({
+              particleCount: 100,
+              startVelocity: 30,
+              spread: 360,
+              ticks: 60,
+              origin: { y: 0.6 }
+          });
+      }, 250);
+  }
+</script>
+<script>
+  document.getElementById('comicForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting and reloading the page
+
+    const formData = new FormData(this);
+    const generateButton = document.getElementById('generateButton');
+    const downloadButton = document.getElementById('downloadButton');
+    const viewComicsButton = document.getElementById('viewComicsButton');
+    const pdfInfo = document.getElementById('pdfInfo'); // Assuming you have this element to show PDF info
+
+    // Disable the generate button to prevent multiple submissions
+    generateButton.disabled = true;
+
+    // Send a POST request to the Flask backend to generate the comic
+    fetch('/generate_comic', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        // Check if the response is okay
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        // Parse the response as JSON
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            // Show the name of the generated PDF
+            pdfInfo.innerHTML = `<p>PDF generated: <strong>${data.pdf_name}</strong></p>`;
+            
+            // Hide the generate button and show the download and view comics buttons
+            generateButton.classList.add('hidden');
+            downloadButton.classList.remove('hidden');
+            viewComicsButton.classList.remove('hidden'); // Show the view comics button
+        } else {
+            pdfInfo.innerHTML = '<p>Error generating PDF.</p>'; // Show error message if status is not success
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        pdfInfo.innerHTML = '<p>There was an error generating the PDF.</p>'; // Show error message
+    })
+    .finally(() => {
+        // Re-enable the generate button
+        generateButton.disabled = false;
+    });
+});
+
+</script>
+
+
+</body>
+</html>
