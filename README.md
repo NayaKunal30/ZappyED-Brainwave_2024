@@ -11,7 +11,9 @@ In today's fast-paced world, students often face challenges with short attention
 - 🧠 **Increased Cognitive Load**
 - 🎨 **Limited Creativity and Expression**
 
-<img src="bg1.png" alt="logo" width=1710 height=600 /> 
+<div align="center">
+  <img alt="Demo" src="bg1.png" />
+</div>
 
 ### 💡 Solution
 **ZappyED** is an **AI-powered platform** that transforms textual content—especially on complex or taboo topics—into **visually engaging comics or manga**. By leveraging generative AI and advanced text-to-image transformation, ZappyED provides an immersive learning experience that enhances retention and engagement.
