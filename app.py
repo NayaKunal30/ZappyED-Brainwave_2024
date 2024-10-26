@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file, abort, jsonify
+from flask import Flask, render_template, request, send_file
 import os
 
 app = Flask(__name__)
@@ -42,12 +42,7 @@ def generate_comic():
     return jsonify({"status": "success"})
 
 # Route to download the latest comic PDF
-@app.route('/download_comic')
-def download_comic():
-    pdf_directory = r"D:\\KKCODINGPL\\PROJECTS\\ML PROJECTS\\ZappyED\\comicpdf"
-    
-    # Check if the directory exists and contains files
-    if not os.path.exists(pdf_directory):
+
         return abort(404, description="PDF directory not found")
     
     pdf_files = os.listdir(pdf_directory)
@@ -56,9 +51,7 @@ def download_comic():
         return abort(404, description="No PDFs found")
     
     # Get the latest file by modification time
-    pdf_files = sorted(pdf_files, key=lambda x: os.path.getmtime(os.path.join(pdf_directory, x)), reverse=True)
-    latest_pdf = os.path.join(pdf_directory, pdf_files[0])  # Get the latest file
-    
+   
     if not os.path.exists(latest_pdf):
         return abort(404, description="PDF file not found")
     
