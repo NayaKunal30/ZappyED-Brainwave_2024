@@ -45,13 +45,6 @@ def wrap_text(text, font, max_width):
     lines.append(' '.join(line))
     return lines
 
-def GenerateComic(topic, style, target_lang):
-    # Initialize the ChatGroq model for text generation
-    llm = ChatGroq(
-        temperature=0,
-        groq_api_key='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',
-        model="gemma2-9b-it"
-    )
 
     # Initialize TranslateHelper
     translator = TranslateHelper()
@@ -59,12 +52,7 @@ def GenerateComic(topic, style, target_lang):
     # Define your prompt based on style
     style_prompts = {
         "Disney Princes": "funny disney with cinderella, snow white or mickey mouse style",
-        "Marvel": "funny marvel with avengers, captain america, hulk, thor, iron man or spiderman style",
-        "Anime": "funny anime with naruto, zoro, death note, demon slayer, one punch man or dragon ball z style",
-        "DC Comics": "funny batman style",
-        "Observable Universe": "interesting story about facts of universe"
-    }
-    
+      
     style_prompt = style_prompts.get(style, "funny story")
 
     # Add a unique noise for randomness
@@ -85,27 +73,12 @@ def GenerateComic(topic, style, target_lang):
     output_dir = os.path.join("D:\\KKCODINGPL\\PROJECTS\\ML PROJECTS\\ZappyED\\templates", f"story_{random.randint(1, 100000)}")
     os.makedirs(output_dir, exist_ok=True)
 
-    # Function to query the Stable Diffusion model for images
-    API_URL = "https://api-inference.huggingface.co/models/ntc-ai/SDXL-LoRA-slider.2000s-indie-comic-art-style"
-    headers = {"Authorization": f"Bearer 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"}
-
+   
     def query(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
         return response
 
-    # Path to the comic font
-    font_path = "D:\\KKCODINGPL\\PROJECTS\\ML PROJECTS\\ZappyED\\font\\animeace2_reg.ttf"
-
-    # Load background image
-    background_path = "D:\\KKCODINGPL\\PROJECTS\\ML PROJECTS\\ZappyED\\bg img.png"
-    background_image = Image.open(background_path)
-
-    # Calculate gaps and dimensions
-    background_width, background_height = background_image.size
-    gap = 20  # Gap between text box and generated image, and between background edges
-    double_gap = 2 * gap  # Gap between text box and generated image
-
-    text_box_height = background_height // 4
+  
     generated_image_height = background_height - text_box_height - double_gap - 2 * gap
 
     # Generate and save images for each phrase with text overlay
@@ -184,17 +157,7 @@ def GenerateComic(topic, style, target_lang):
         else:
             print(f"Request failed with status code {response.status_code}: {response.text}")
 
-    # Create a PDF from the images
-    pdf_directory = "D:\\KKCODINGPL\\PROJECTS\\ML PROJECTS\\ZappyED\\comicpdf"
-    os.makedirs(pdf_directory, exist_ok=True)
-
-    # Create a unique name for the PDF using a random unique ID
-    pdf_path = os.path.join(pdf_directory, f"comic_{random.randint(1, 100000)}.pdf")
-    c = canvas.Canvas(pdf_path)
-    for image_path in image_paths:
-        img = Image.open(image_path)
-        width, height = img.size
-        c.setPageSize((width, height))
+ 
         c.drawImage(image_path, 0, 0, width, height)
         c.showPage()
     c.save()
